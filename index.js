@@ -28,20 +28,15 @@ app.get("/", (req, res) => {
 });
 
 
-app.post('/getMovies', (req, res) => {  
-    console.log(req.body)      
-    const { searchTerm } = req.body;
-    console.log('----SEARCH TERM----');
-    console.log(searchTerm);
+app.post('/getMovies', (req, res) => {        
+    const { searchTerm } = req.body;    
     // const parsedBody = JSON.parse(req.body.searchTerm);
     // console.log(parsedBody);
     axios.get(`${process.env.MOVIE_URL}${process.env.API_KEY}&language=en-US&page=1&query=${searchTerm}/`)
         .then((response) => {
             console.log('----RESPONSE----');
             console.log(response.data);        
-            const { data } = response;
-            // let stringify = JSON.stringify(response)
-            // res.send(JSON.stringify({data: response}));
+            const { data } = response;            
             res.json({data})
     })
     .catch(err => {
