@@ -5,7 +5,6 @@
 require('dotenv').config();
 const express = require("express");
 const axios = require('axios');
-const path = require("path");
 const bodyParser = require("body-parser")
 const cors = require("cors");
 
@@ -33,12 +32,12 @@ app.get("/", (req, res) => {
 app.post('/searchMovies', (req, res) => {        
     const { searchTerm } = req.body;        
 
-    axios.get(`${process.env.MOVIE_URL}search/movie?api_key=${process.env.API_KEY}&language=en-US&page=1&query=${searchTerm}/`)
-        .then((response) => {
+    axios.get(`${process.env.MOVIE_URL}search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${searchTerm}/`)
+        .then(response => {
             console.log('----RESPONSE----');
             console.log(response.data);        
             const { data } = response;            
-            res.json( {data} )
+            res.json( { data } )
     })
     .catch(err => {
         console.log("-----ERROR-----");
@@ -50,9 +49,15 @@ app.post('/searchMovies', (req, res) => {
 
 
 app.get('/getMovies', (req, res) => {
-    axios.get(`${process.env.MOVIE_URL}movie/popular?api_key=${process.env.API_KEY}&language=en-US&page=1/`)
-        .then((response) => {   
+    console.log("----REQUEST OBJECT----");
+    // console.log(req.query);
+    const { page } = req.query; 
+    console.log(page);
+    axios.get(`${process.env.MOVIE_URL}movie/popular?api_key=${process.env.API_KEY}&page=${parseInt(page)}&language=en-US/`)
+        .then(response => {   
             const { data } = response;            
+            console.log("----DATA----")
+            console.log(data);
             res.json({data})
     })
     .catch(err => {
@@ -68,6 +73,4 @@ app.get('/getMovies', (req, res) => {
  */
  app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
-
-
  });
