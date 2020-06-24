@@ -51,8 +51,7 @@ app.post('/searchMovies', (req, res) => {
 app.get('/getMovies', (req, res) => {
     console.log("----REQUEST OBJECT----");
     // console.log(req.query);
-    const { page } = req.query; 
-    console.log(page);
+    const { page } = req.query;     
     axios.get(`${process.env.MOVIE_URL}movie/popular?api_key=${process.env.API_KEY}&page=${parseInt(page)}&language=en-US/`)
         .then(response => {   
             const { data } = response;            
