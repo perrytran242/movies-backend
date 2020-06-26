@@ -137,3 +137,9 @@ app.get('/getMovies', (req, res) => {
  app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
  });
+
+ db.sequelize.sync().then(function() {
+    http.createServer(app).listen(app.get('port'), function(){
+      console.log('Express server listening on port ' + app.get('port'));
+    });
+  });
